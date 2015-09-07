@@ -24,6 +24,17 @@
 
 
 
+static void __realloc(keystore *keys)
+{
+    /* Allocating for the whole structure */
+    keys->keyentries =(keyentry **)realloc(keys->keyentries,
+                                         (keys->keysize+2)*sizeof(keyentry *));
+    if(!keys->keyentries)
+    {
+        ErrorExit(MEM_ERROR, __local_name);
+    }
+}
+
 /* __memclear: Clears keys entries.
  */
 void __memclear(char *id, char *name, char *ip, char *key, int size)
@@ -46,13 +57,7 @@ void __chash(keystore *keys, char *id, char *name, char *ip, char *key)
 	char _finalstr[KEYSIZE];
 
 
-    /* Allocating for the whole structure */
-    keys->keyentries =(keyentry **)realloc(keys->keyentries,
-                                         (keys->keysize+2)*sizeof(keyentry *));
-    if(!keys->keyentries)
-    {
-        ErrorExit(MEM_ERROR, __local_name);
-    }
+    __realloc(keys);
     os_calloc(1, sizeof(keyentry), keys->keyentries[keys->keysize]);
 
 
@@ -310,10 +315,14 @@ void OS_ReadKeys(keystore *keys)
     __memclear(id, name, ip, key, KEYSIZE +1);		
 
 
-    /* Checking if there is any agent available */
+    /* Check if there are any keys available, except on remoted
+     * because more keys could be added later */
     if(keys->keysize == 0)
     {
-        ErrorExit(NO_REM_CONN, __local_name);
+        if (strcmp(__local_name, "ossec-remoted") != 0)
+            ErrorExit(NO_REM_CONN, __local_name);
+        else
+            __realloc(keys);
     }
 
 

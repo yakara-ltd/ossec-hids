@@ -470,7 +470,8 @@ int main_analysisd(int argc, char **argv)
 
 
     /* Verbose message */
-    debug1(PRIVSEP_MSG, ARGV0, dir, user);
+    debug1(CHROOT_MSG, ARGV0, dir);
+    debug1(PRIVSEP_MSG, ARGV0, user);
 
 
     /* Signal manipulation	*/

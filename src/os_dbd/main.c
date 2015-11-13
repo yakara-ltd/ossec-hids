@@ -246,7 +246,8 @@ int main(int argc, char **argv)
 
 
     /* Basic start up completed. */
-    debug1(PRIVSEP_MSG,ARGV0,dir,user);
+    debug1(CHROOT_MSG, ARGV0, dir);
+    debug1(PRIVSEP_MSG, ARGV0, user);
 
 
     /* Signal manipulation */

@@ -143,11 +143,15 @@ int main(int argc, char **argv)
         ErrorExit(SETGID_ERROR,ARGV0,group);
 
 
-    /* chrooting */
-    if(Privsep_Chroot(dir) < 0)
-        ErrorExit(CHROOT_ERROR,ARGV0,dir);
+    if (mail.smtpserver[0] != '/')
+    {
+        /* chrooting */
+        if(Privsep_Chroot(dir) < 0)
+            ErrorExit(CHROOT_ERROR,ARGV0,dir);
 
-    nowChroot();
+        nowChroot();
+        debug1(CHROOT_MSG, ARGV0, dir);
+    }
 
 
 
@@ -156,7 +160,6 @@ int main(int argc, char **argv)
         ErrorExit(SETUID_ERROR,ARGV0,user);
 
 
-    debug1(CHROOT_MSG, ARGV0, dir);
     debug1(PRIVSEP_MSG, ARGV0, user);
 
 

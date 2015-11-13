@@ -546,11 +546,18 @@ int Read_Global(XML_NODE node, void *configp, void *mailp)
             #ifndef WIN32
             if(Mail && (Mail->mn))
             {
-                Mail->smtpserver = OS_GetHost(node[i]->content, 5);
-                if(!Mail->smtpserver)
+                if (node[i]->content[0] == '/')
                 {
-                    merror(INVALID_SMTP, ARGV0, node[i]->content);
-                    return(OS_INVALID);
+                    os_strdup(node[i]->content, Mail->smtpserver);
+                }
+                else
+                {
+                    Mail->smtpserver = OS_GetHost(node[i]->content, 5);
+                    if(!Mail->smtpserver)
+                    {
+                        merror(INVALID_SMTP, ARGV0, node[i]->content);
+                        return(OS_INVALID);
+                    }
                 }
             }
             #endif

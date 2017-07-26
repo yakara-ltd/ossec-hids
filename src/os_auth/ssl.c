@@ -46,8 +46,16 @@ void *os_ssl_keys(int isclient, char *dir)
 
 
     /* Create our context */
-    sslmeth = (SSL_METHOD *)SSLv23_method();
-    ctx = SSL_CTX_new(sslmeth);
+    sslmeth = TLSv1_2_method();
+    if (!(ctx = SSL_CTX_new(sslmeth))) {
+        merror("%s: ERROR: Unable to create SSL context", ARGV0);
+        return(NULL);
+    }
+
+    if (!(SSL_CTX_set_cipher_list(ctx, "HIGH:!ADH:!LOW:!EXP:!MD5:!3DES:!CAMELLIA:@STRENGTH"))) {
+        merror("%s: ERROR: Unable to set cipher list", ARGV0);
+        return(NULL);
+    }
 
     if(isclient)
     {

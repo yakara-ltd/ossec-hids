@@ -207,7 +207,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
     snprintf(snd_msg,127, TO, to[0]);
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -215,7 +215,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
     snprintf(snd_msg,127, FROM, from);
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -235,7 +235,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
             snprintf(snd_msg,127, TO, to[i]);
 
             if (sendmail)
-                fprintf(sendmail, snd_msg);
+                fprintf(sendmail, "%s", snd_msg);
             else
                 OS_SendTCP(socket, snd_msg);
 
@@ -256,7 +256,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
     #endif
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -267,7 +267,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
         snprintf(snd_msg,127, XHEADER, idsname);
 
         if (sendmail)
-            fprintf(sendmail, snd_msg);
+            fprintf(sendmail, "%s", snd_msg);
         else
             OS_SendTCP(socket, snd_msg);
     }
@@ -278,8 +278,8 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
 
     if (sendmail)
     {
-        fprintf(sendmail, snd_msg);
-        fprintf(sendmail, ENDHEADER);
+        fprintf(sendmail, "%s", snd_msg);
+        fprintf(sendmail, "%s", ENDHEADER);
     }
     else
     {
@@ -293,7 +293,7 @@ int OS_SendCustomEmail(char **to, char *subject, char *smtpserver, char *from, c
      while(fgets(buffer, 2048, fp) != NULL)
      {
         if (sendmail)
-            fprintf(sendmail, buffer);
+            fprintf(sendmail, "%s", buffer);
         else
             OS_SendTCP(socket, buffer);
      }

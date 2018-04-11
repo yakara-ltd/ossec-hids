@@ -228,7 +228,7 @@ int OS_Sendsms(MailConfig *mail, struct tm *p, MailMsg *sms_msg)
     snprintf(snd_msg,127, FROM, mail->from);
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -245,7 +245,7 @@ int OS_Sendsms(MailConfig *mail, struct tm *p, MailMsg *sms_msg)
     #endif
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -256,9 +256,9 @@ int OS_Sendsms(MailConfig *mail, struct tm *p, MailMsg *sms_msg)
 
     if (sendmail)
     {
-        fprintf(sendmail, snd_msg);
-        fprintf(sendmail, ENDHEADER);
-        fprintf(sendmail, sms_msg->body);
+        fprintf(sendmail, "%s", snd_msg);
+        fprintf(sendmail, "%s", ENDHEADER);
+        fprintf(sendmail, "%s", sms_msg->body);
 
         if (pclose(sendmail) == -1)
             merror(WAITPID_ERROR, ARGV0);
@@ -508,7 +508,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
     snprintf(snd_msg,127, TO, mail->to[0]);
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -516,7 +516,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
     snprintf(snd_msg,127, FROM, mail->from);
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -536,7 +536,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
             snprintf(snd_msg,127, TO, mail->to[i]);
 
             if (sendmail)
-                fprintf(sendmail, snd_msg);
+                fprintf(sendmail, "%s", snd_msg);
             else
                 OS_SendTCP(socket, snd_msg);
 
@@ -561,7 +561,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
             snprintf(snd_msg,127, TO, mail->gran_to[i]);
 
             if (sendmail)
-                fprintf(sendmail, snd_msg);
+                fprintf(sendmail, "%s", snd_msg);
             else
                 OS_SendTCP(socket, snd_msg);
 
@@ -583,7 +583,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
     #endif
 
     if (sendmail)
-        fprintf(sendmail, snd_msg);
+        fprintf(sendmail, "%s", snd_msg);
     else
         OS_SendTCP(socket, snd_msg);
 
@@ -594,7 +594,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
         snprintf(snd_msg,127, XHEADER, mail->idsname);
 
         if (sendmail)
-            fprintf(sendmail, snd_msg);
+            fprintf(sendmail, "%s", snd_msg);
         else
             OS_SendTCP(socket, snd_msg);
     }
@@ -619,8 +619,8 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
 
     if (sendmail)
     {
-        fprintf(sendmail, snd_msg);
-        fprintf(sendmail, ENDHEADER);
+        fprintf(sendmail, "%s", snd_msg);
+        fprintf(sendmail, "%s", ENDHEADER);
     }
     else
     {
@@ -635,7 +635,7 @@ int OS_Sendmail(MailConfig *mail, struct tm *p)
     do
     {
         if (sendmail)
-            fprintf(sendmail, mailmsg->mail->body);
+            fprintf(sendmail, "%s", mailmsg->mail->body);
         else
             OS_SendTCP(socket, mailmsg->mail->body);
 
